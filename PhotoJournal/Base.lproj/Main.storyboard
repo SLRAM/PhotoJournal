@@ -20,7 +20,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g5M-um-0bI">
                                 <rect key="frame" x="0.0" y="20" width="375" height="603"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.87147650700000001" green="0.81033822060000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="G3h-rB-kem">
                                     <size key="itemSize" width="375" height="273"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -66,7 +66,6 @@
                                             <constraint firstItem="HQ4-cy-vue" firstAttribute="centerX" secondItem="IbV-Rx-L44" secondAttribute="centerX" id="BT2-cR-AJ6"/>
                                             <constraint firstItem="HQ4-cy-vue" firstAttribute="height" secondItem="IbV-Rx-L44" secondAttribute="height" multiplier="0.65" id="I0g-Hm-EtX"/>
                                             <constraint firstItem="629-mp-dxb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IbV-Rx-L44" secondAttribute="leading" symbolic="YES" id="LMQ-hq-xWZ"/>
-                                            <constraint firstItem="HQ4-cy-vue" firstAttribute="top" secondItem="IbV-Rx-L44" secondAttribute="top" id="O3V-Qs-wwm"/>
                                             <constraint firstItem="HQ4-cy-vue" firstAttribute="leading" secondItem="IbV-Rx-L44" secondAttribute="leading" id="QJf-dv-Ffj"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="Vah-MO-Ke0" secondAttribute="trailing" id="UdI-kw-TmT"/>
                                             <constraint firstAttribute="trailing" secondItem="629-mp-dxb" secondAttribute="trailing" constant="10" id="bJc-FF-VlP"/>
@@ -95,7 +94,6 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="aSO-Rz-NIh"/>
                                     <barButtonItem systemItem="add" id="boJ-ot-gLq">
                                         <connections>
-                                            <action selector="addButtonClicked:" destination="BYZ-38-t0r" id="rnQ-sn-PgF"/>
                                             <segue destination="IFC-1s-8df" kind="presentation" id="2NA-3Q-j0W"/>
                                         </connections>
                                     </barButtonItem>
@@ -127,7 +125,7 @@
         <!--Add Photo View Controller-->
         <scene sceneID="iZF-b9-h8s">
             <objects>
-                <viewController id="IFC-1s-8df" customClass="AddPhotoViewController" customModule="PhotoJournal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddPhotoViewController" id="IFC-1s-8df" customClass="AddPhotoViewController" customModule="PhotoJournal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rqa-8m-Qs5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

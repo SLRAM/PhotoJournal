@@ -21,6 +21,8 @@ class AddPhotoViewController: UIViewController {
     private var imagePickerViewController: UIImagePickerController!
     private var descriptionPlaceholder = " Enter photo description..."
     private var imagePlaceholder = UIImage(named: "placeholder-image.jpeg")
+    var photoJournal: PhotoJournal?
+    var indexNumber = 0
 
 
     
@@ -41,12 +43,25 @@ class AddPhotoViewController: UIViewController {
     }
  
     private func setupImagePickerViewController() {
-        descriptionView.isEditable = false
-        saveButton.isEnabled = false
-        descriptionView.textColor = .lightGray
-        descriptionView.text = descriptionPlaceholder
+        print("here")
+        if let photoJournal = photoJournal {
+            descriptionView.text = photoJournal.description
+            descriptionView.textColor = .black
+            if let image = UIImage(data: photoJournal.imageData) {
+                imageView.image = image
+            }
+        } else {
+            descriptionView.text = descriptionPlaceholder
+            descriptionView.textColor = .lightGray
+            imageView.image = imagePlaceholder
+            descriptionView.isEditable = false
+            saveButton.isEnabled = false
+            
+
+        }
+        
+        
         descriptionView.delegate = self
-        imageView.image = imagePlaceholder
         imagePickerViewController =  UIImagePickerController()
         imagePickerViewController.delegate = self
         if !UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -74,9 +89,7 @@ class AddPhotoViewController: UIViewController {
     @IBAction func saveButtonClicked(_ sender: Any) {
         guard let journal = saveJournal() else {return}
         PhotoJournalModel.addPost(post: journal)
-        //savePhotoJournal(image: PhotoJournal)
         dismiss(animated: true, completion: nil)
-        
     }
     
     @IBAction func cameraButtonClicked(_ sender: UIBarButtonItem) {

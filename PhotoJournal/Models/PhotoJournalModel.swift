@@ -6,19 +6,19 @@
 //  Copyright © 2019 Stephanie Ramirez. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 final class PhotoJournalModel {
     private static let filename = "PhotoJournalPickerList.plist"
     private static var posts = [PhotoJournal]()
     
-    private init() {} // this makes initializer private
-    static func addPost(post: PhotoJournal) { //adds post to pList
+    private init() {}
+    static func addPost(post: PhotoJournal) {
         posts.append(post)
         savePhotoJournal()
     }
     
-    static func savePhotoJournal() { //saves current pList status
+    static func savePhotoJournal() {
         let path = DataPersistenceManager.filepathToDocumentsDirectory(filename: filename)
         
         do {
@@ -28,15 +28,26 @@ final class PhotoJournalModel {
             print("property list encoder: \(error)")
         }
     }
-    static func getPhotoJournal() -> [PhotoJournal] { //to view the photos on the main controller
+    static func deletePhotoJournal(index: Int) {
+        posts.remove(at: index)
+        savePhotoJournal()
+    }
+    static func editPhotoJournal(index: Int) {
+        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
+        guard let destinationViewController = storyBoard.instantiateViewController(withIdentifier: "AddPhotoViewController") as? AddPhotoViewController else { return }
+        destinationViewController.modalPresentationStyle = .currentContext
+        print(index)
+        destinationViewController.photoJournal = posts[index]
+        destinationViewController.indexNumber = index
+//        present(destinationViewController, animated: true, completion: nil)
+    }
+    static func getPhotoJournal() -> [PhotoJournal] {
         let path = DataPersistenceManager.filepathToDocumentsDirectory(filename: filename).path
-//        var photoJournals = [PhotoJournal]()
         
         if FileManager.default.fileExists(atPath: path) {
             if let data = FileManager.default.contents(atPath: path) {
                 do {
                     posts = try PropertyListDecoder().decode([PhotoJournal].self, from: data)
-                    print("\(filename) does exist")
                 } catch {
                     print("Property list decoding error: \(error)")
                 }
@@ -46,6 +57,8 @@ final class PhotoJournalModel {
         } else {
             print("\(filename) does not exist")
         }
+        posts = posts.sorted {$0.createdAt > $1.createdAt}
+
         return posts
     }
 }

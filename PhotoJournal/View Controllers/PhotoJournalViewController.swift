@@ -11,6 +11,7 @@ import UIKit
 class PhotoJournalViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var addButton: UIBarButtonItem!
+    var tag = Int()
     
     var myPhotos = [PhotoJournal]() {
         didSet {
@@ -20,32 +21,26 @@ class PhotoJournalViewController: UIViewController {
         }
     }
 
-    //UIAlertViewController alertcontroller.addaction(delete action, etc) with action (.alert), .actionsheet
-    //if you don't have a device don'timplement sharing 
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
-        collectionView.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
+        myPhotos = PhotoJournalModel.getPhotoJournal()
+//        PhotoJournalModel.getPhotoJournal()
         print(DataPersistenceManager.documentsDirectory())
-        
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        guard let imageCell = segue.destination as? PhotoJournalImageCell else {return}
-//        imageCell.delegate = self
-//    }
-    
-    
     
     override func viewWillAppear(_ animated: Bool) {
         collectionView.reloadData()
     }
-    
-    @IBAction func addButtonClicked(_ sender: UIBarButtonItem) {
-        
+    private func editJournal(index: Int) {
+        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
+        guard let destinationViewController = storyBoard.instantiateViewController(withIdentifier: "AddPhotoViewController") as? AddPhotoViewController else { return }
+        destinationViewController.modalPresentationStyle = .currentContext
+        print("my photos \(myPhotos)")
+        destinationViewController.photoJournal = myPhotos[index]
+        destinationViewController.indexNumber = index
+        present(destinationViewController, animated: true, completion: nil)
     }
-
 }
 extension PhotoJournalViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -59,25 +54,32 @@ extension PhotoJournalViewController: UICollectionViewDataSource {
         cell.descriptionLabel.text = photo.description
         cell.timestampLabel.text = photo.createdAt
         cell.imageView.image = UIImage(data: photo.imageData)
+        cell.optionsButton.tag = indexPath.row
         cell.delegate = self
+        tag = indexPath.row
         return cell
-
     }
-    
-    
 }
 
-extension PhotoJournalViewController: UICollectionViewDelegate {
-    
-}
 
 extension PhotoJournalViewController: PhotoJournalImageCellDelegate {
+    
     func actionSheet() {
         let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
+        let  deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
+            PhotoJournalModel.deletePhotoJournal(index: self.tag)
+            PhotoJournalModel.getPhotoJournal()
+            self.collectionView.reloadData()
+        })
+        let editAction = UIAlertAction(title: "Edit", style: .default, handler: { (action) -> Void in
+            print(self.tag)
+//            PhotoJournalModel.editPhotoJournal(index: self.tag)
+            self.editJournal(index: self.tag)
 
-        let deleteAction = UIAlertAction(title: "Delete", style: .default)
-        deleteAction.setValue(UIColor.red, forKey: "titleTextColor")
-        let editAction = UIAlertAction(title: "Edit", style: .default)
+            PhotoJournalModel.getPhotoJournal()
+            self.collectionView.reloadData()
+        })
+        
         let shareAction = UIAlertAction(title: "Share", style: .default)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         optionMenu.addAction(deleteAction)
@@ -86,5 +88,4 @@ extension PhotoJournalViewController: PhotoJournalImageCellDelegate {
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
-
 }
