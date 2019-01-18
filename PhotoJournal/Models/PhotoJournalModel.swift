@@ -32,14 +32,9 @@ final class PhotoJournalModel {
         posts.remove(at: index)
         savePhotoJournal()
     }
-    static func editPhotoJournal(index: Int) {
-        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
-        guard let destinationViewController = storyBoard.instantiateViewController(withIdentifier: "AddPhotoViewController") as? AddPhotoViewController else { return }
-        destinationViewController.modalPresentationStyle = .currentContext
-        print(index)
-        destinationViewController.photoJournal = posts[index]
-        destinationViewController.indexNumber = index
-//        present(destinationViewController, animated: true, completion: nil)
+    static func editPhotoJournal(index: Int, photoJournal: PhotoJournal) {
+        posts[index] = photoJournal
+        savePhotoJournal()
     }
     static func getPhotoJournal() -> [PhotoJournal] {
         let path = DataPersistenceManager.filepathToDocumentsDirectory(filename: filename).path

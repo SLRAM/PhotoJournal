@@ -21,12 +21,9 @@ class AddPhotoViewController: UIViewController {
     private var imagePickerViewController: UIImagePickerController!
     private var descriptionPlaceholder = " Enter photo description..."
     private var imagePlaceholder = UIImage(named: "placeholder-image.jpeg")
-    var photoJournal: PhotoJournal?
+    var photoJournal: PhotoJournal? //if this isn't nil then you are editing
     var indexNumber = 0
 
-
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addGestureRecognizer(tapGesture)
@@ -45,6 +42,7 @@ class AddPhotoViewController: UIViewController {
     private func setupImagePickerViewController() {
         print("here")
         if let photoJournal = photoJournal {
+            descriptionView.becomeFirstResponder()
             descriptionView.text = photoJournal.description
             descriptionView.textColor = .black
             if let image = UIImage(data: photoJournal.imageData) {
@@ -56,10 +54,7 @@ class AddPhotoViewController: UIViewController {
             imageView.image = imagePlaceholder
             descriptionView.isEditable = false
             saveButton.isEnabled = false
-            
-
         }
-        
         
         descriptionView.delegate = self
         imagePickerViewController =  UIImagePickerController()
@@ -83,13 +78,19 @@ class AddPhotoViewController: UIViewController {
 
     @IBAction func cancelButtonClicked(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
-
     }
     
     @IBAction func saveButtonClicked(_ sender: Any) {
-        guard let journal = saveJournal() else {return}
-        PhotoJournalModel.addPost(post: journal)
-        dismiss(animated: true, completion: nil)
+        if photoJournal != nil {
+            if let journal =  saveJournal() {
+                PhotoJournalModel.editPhotoJournal(index: indexNumber, photoJournal: journal)
+                dismiss(animated: true, completion: nil)
+            }
+        } else {
+            guard let journal = saveJournal() else {return}
+            PhotoJournalModel.addPost(post: journal)
+            dismiss(animated: true, completion: nil)
+        }
     }
     
     @IBAction func cameraButtonClicked(_ sender: UIBarButtonItem) {

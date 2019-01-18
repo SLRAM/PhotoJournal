@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PhotoJournalImageCellDelegate: AnyObject {
-    func actionSheet()
+    func actionSheet(tag: Int)
 }
 
 class PhotoJournalImageCell: UICollectionViewCell {
@@ -21,6 +21,6 @@ class PhotoJournalImageCell: UICollectionViewCell {
     weak var delegate: PhotoJournalImageCellDelegate?
     
     @IBAction func optionsButtonClicked(_ sender: UIButton) {
-        self.delegate?.actionSheet()
+        self.delegate?.actionSheet(tag: sender.tag)
     }
 }
