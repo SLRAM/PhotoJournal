@@ -10,30 +10,29 @@ import UIKit
 
 final class PhotoJournalModel {
     private static let filename = "PhotoJournalPickerList.plist"
-    private static var posts = [PhotoJournal]()
+    private static var photoJournals = [PhotoJournal]()
     
     private init() {}
-    static func addPost(post: PhotoJournal) {
-        posts.append(post)
+    static func appendPhotoJournal(photoJournal: PhotoJournal) {
+        photoJournals.append(photoJournal)
         savePhotoJournal()
     }
-    
     static func savePhotoJournal() {
         let path = DataPersistenceManager.filepathToDocumentsDirectory(filename: filename)
         
         do {
-            let data = try PropertyListEncoder().encode(posts)
+            let data = try PropertyListEncoder().encode(photoJournals)
             try data.write(to: path, options: Data.WritingOptions.atomic)
         } catch {
             print("property list encoder: \(error)")
         }
     }
     static func deletePhotoJournal(index: Int) {
-        posts.remove(at: index)
+        photoJournals.remove(at: index)
         savePhotoJournal()
     }
     static func editPhotoJournal(index: Int, photoJournal: PhotoJournal) {
-        posts[index] = photoJournal
+        photoJournals[index] = photoJournal
         savePhotoJournal()
     }
     static func getPhotoJournal() -> [PhotoJournal] {
@@ -42,7 +41,7 @@ final class PhotoJournalModel {
         if FileManager.default.fileExists(atPath: path) {
             if let data = FileManager.default.contents(atPath: path) {
                 do {
-                    posts = try PropertyListDecoder().decode([PhotoJournal].self, from: data)
+                    photoJournals = try PropertyListDecoder().decode([PhotoJournal].self, from: data)
                 } catch {
                     print("Property list decoding error: \(error)")
                 }
@@ -52,8 +51,8 @@ final class PhotoJournalModel {
         } else {
             print("\(filename) does not exist")
         }
-        posts = posts.sorted {$0.createdAt > $1.createdAt}
+        photoJournals = photoJournals.sorted {$0.createdAt > $1.createdAt}
 
-        return posts
+        return photoJournals
     }
 }

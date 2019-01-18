@@ -17,7 +17,6 @@ class PhotoJournalImageCell: UICollectionViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var optionsButton: UIButton!
-//    var alertController: UIAlertController!
     weak var delegate: PhotoJournalImageCellDelegate?
     
     @IBAction func optionsButtonClicked(_ sender: UIButton) {

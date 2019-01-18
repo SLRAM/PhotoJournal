@@ -12,12 +12,4 @@ struct PhotoJournal: Codable {
     let createdAt: String
     let imageData: Data
     let description: String
-    public var date: Date {
-        let isoDateFormatter = ISO8601DateFormatter()
-        var formattedDate = Date()
-        if let date = isoDateFormatter.date(from: createdAt) {
-            formattedDate = date
-        }
-        return formattedDate
-    }
 }

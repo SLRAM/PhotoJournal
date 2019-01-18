@@ -156,7 +156,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="placeholder-image " translatesAutoresizingMaskIntoConstraints="NO" id="4ju-p8-3rb">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="placeholder-image" translatesAutoresizingMaskIntoConstraints="NO" id="4ju-p8-3rb">
                                 <rect key="frame" x="0.0" y="236" width="375" height="377"/>
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VwA-GF-7a5">
@@ -195,6 +195,7 @@
                         <viewLayoutGuide key="safeArea" id="Arp-zX-wcC"/>
                     </view>
                     <connections>
+                        <outlet property="addEditNavigationBar" destination="dGl-MC-zTp" id="ZLU-qb-lUf"/>
                         <outlet property="cameraButton" destination="LMr-FP-ObO" id="tuH-5H-4rd"/>
                         <outlet property="cancelButton" destination="XyH-zE-BiU" id="Ecx-mL-rXN"/>
                         <outlet property="descriptionView" destination="yNv-uh-11y" id="kDM-p4-RyE"/>
@@ -211,10 +212,10 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="142" y="636"/>
+            <point key="canvasLocation" x="142" y="754"/>
         </scene>
     </scenes>
     <resources>
-        <image name="placeholder-image " width="1200" height="1200"/>
+        <image name="placeholder-image" width="1200" height="1200"/>
     </resources>
 </document>
